@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Assistent</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="iconlion.png">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>Notepad + Tools</h1>
+                    <span class="version">Arulbabu</span>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="icon-btn" data-testid="theme-toggle-btn" title="Toggle theme" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button id="settings-btn" class="icon-btn" data-testid="settings-btn" title="Settings" aria-label="Settings">
+                        <span>⚙️</span>
+                    </button>
+                    <button id="export-btn" class="btn-secondary" data-testid="export-btn">Export</button>
+                    <button id="import-btn" class="btn-secondary" data-testid="import-btn">Import</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Active Tag Filter -->
+        <div id="active-tag-filter" class="active-tag-filter hidden" data-testid="active-tag-filter">
+            <span class="filter-label">Filtered by:</span>
+            <span class="filter-tag" id="active-tag-name" data-testid="active-tag-name"></span>
+            <button id="clear-tag-filter" class="clear-filter-btn" data-testid="clear-tag-filter-btn" title="Clear filter">×</button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs" role="tablist">
+                <button class="tab active" data-tab="notes" data-testid="notes-tab" role="tab" aria-selected="true">📝 Notes</button>
+                <button class="tab" data-tab="tools" data-testid="tools-tab" role="tab" aria-selected="false">🔧 Tools</button>
+            </div>
+        </div>
+
+        <!-- Notes View -->
+        <div id="notes-view" class="view-container active" data-testid="notes-view">
+            <div class="split-layout">
+                <!-- Notes List -->
+                <aside class="notes-sidebar">
+                    <div class="sidebar-header">
+                        <div class="search-box">
+                            <input 
+                                type="text" 
+                                id="notes-search" 
+                                data-testid="notes-search-input"
+                                placeholder="Search notes..." 
+                                aria-label="Search notes"
+                            >
+                        </div>
+                        <div class="sort-controls">
+                            <select id="notes-sort" data-testid="notes-sort-select" aria-label="Sort notes">
+                                <option value="updated-desc">Recently Updated</option>
+                                <option value="updated-asc">Oldest Updated</option>
+                                <option value="created-desc">Recently Created</option>
+                                <option value="created-asc">Oldest Created</option>
+                                <option value="title-asc">Title A-Z</option>
+                                <option value="title-desc">Title Z-A</option>
+                            </select>
+                        </div>
+                        <button id="new-note-btn" class="btn-primary" data-testid="new-note-btn">+ New Note</button>
+                    </div>
+                    <div class="notes-list" id="notes-list" data-testid="notes-list"></div>
+                </aside>
+
+                <!-- Note Editor -->
+                <main class="note-editor" id="note-editor" data-testid="note-editor">
+                    <div class="editor-placeholder" id="editor-placeholder">
+                        <div class="placeholder-content">
+                            <span class="placeholder-icon">📄</span>
+                            <p>Select a note or create a new one</p>
+                        </div>
+                    </div>
+                    <div class="editor-content hidden" id="editor-content">
+                        <div class="editor-header">
+                            <input 
+                                type="text" 
+                                id="note-title" 
+                                data-testid="note-title-input"
+                                placeholder="Note title" 
+                                aria-label="Note title"
+                            >
+                            <div class="editor-actions">
+                                <button id="pin-note-btn" class="icon-btn" data-testid="pin-note-btn" title="Pin note">📌</button>
+                                <button id="archive-note-btn" class="icon-btn" data-testid="archive-note-btn" title="Archive note">📦</button>
+                                <button id="delete-note-btn" class="icon-btn danger" data-testid="delete-note-btn" title="Delete note">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="tags-input-container">
+                            <input 
+                                type="text" 
+                                id="note-tags" 
+                                data-testid="note-tags-input"
+                                placeholder="Tags (comma-separated)" 
+                                aria-label="Note tags"
+                            >
+                            <div class="tags-display" id="note-tags-display" data-testid="note-tags-display"></div>
+                        </div>
+                        <textarea 
+                            id="note-content" 
+                            data-testid="note-content-textarea"
+                            placeholder="Start typing your note..." 
+                            aria-label="Note content"
+                        ></textarea>
+                        <div class="editor-footer">
+                            <span class="save-status" id="save-status" data-testid="save-status">Saved</span>
+                            <span class="note-metadata" id="note-metadata" data-testid="note-metadata"></span>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Tools View -->
+        <div id="tools-view" class="view-container" data-testid="tools-view">
+            <div class="tools-header">
+                <div class="search-sort-container">
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="tools-search" 
+                            data-testid="tools-search-input"
+                            placeholder="Search tools..." 
+                            aria-label="Search tools"
+                        >
+                    </div>
+                    <select id="tools-sort" data-testid="tools-sort-select" aria-label="Sort tools">
+                        <option value="updated-desc">Recently Updated</option>
+                        <option value="updated-asc">Oldest Updated</option>
+                        <option value="created-desc">Recently Created</option>
+                        <option value="created-asc">Oldest Created</option>
+                        <option value="name-asc">Name A-Z</option>
+                        <option value="name-desc">Name Z-A</option>
+                    </select>
+                </div>
+                <button id="new-tool-btn" class="btn-primary" data-testid="new-tool-btn">+ Add Tool</button>
+            </div>
+            <div class="tools-grid" id="tools-grid" data-testid="tools-grid"></div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal" data-testid="settings-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="close-modal" data-testid="close-settings-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label for="autosave-interval">Autosave Interval</label>
+                        <select id="autosave-interval" data-testid="autosave-interval-select">
+                            <option value="off">Off</option>
+                            <option value="1000">1 second</option>
+                            <option value="1500">1.5 seconds</option>
+                            <option value="3000" selected>3 seconds</option>
+                            <option value="5000">5 seconds</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tool Modal -->
+        <div id="tool-modal" class="modal" data-testid="tool-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="tool-modal-title">Add Tool</h2>
+                    <button class="close-modal" data-testid="close-tool-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="tool-name">Name *</label>
+                        <input type="text" id="tool-name" data-testid="tool-name-input" required aria-label="Tool name">
+                    </div>
+                    <div class="form-group">
+                        <label for="tool-url">URL *</label>
+                        <input type="url" id="tool-url" data-testid="tool-url-input" required aria-label="Tool URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="tool-description">Description</label>
+                        <textarea id="tool-description" data-testid="tool-description-textarea" rows="3" aria-label="Tool description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tool-tags">Tags (comma-separated)</label>
+                        <input type="text" id="tool-tags" data-testid="tool-tags-input" aria-label="Tool tags">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-tool-btn" data-testid="cancel-tool-btn">Cancel</button>
+                    <button class="btn-primary" id="save-tool-btn" data-testid="save-tool-btn">Save Tool</button>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Test Banner -->
+        <div id="test-banner" class="test-banner hidden" data-testid="test-banner">
+            <span id="test-message"></span>
+        </div>
+    </div>
+    <center class="version" >© 2025 Arulbabu. All rights reserved.</center>
+
+    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+
+    <script src="app.js"></script>
+</body>
+</html>
