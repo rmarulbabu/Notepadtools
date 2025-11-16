@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools Arul</title>
+    <title>Notepad + Tools Manager</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="iconlion.png">
+    <link rel="iconn" href="iconlion.png">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="auth-loading">
+        <!-- Auth screen will be injected here if not authenticated -->
+        <!-- Or app content will load if authenticated -->
+        
         <!-- Header -->
         <header class="app-header">
             <div class="header-content">
                 <div class="logo-section">
                     <h1>Notepad + Tools</h1>
-                    <span class="version">Arulbabu</span>
+                    <span class="version">v1.0</span>
                 </div>
                 <div class="header-actions">
+                    <!-- User info will be injected here -->
                     <button id="theme-toggle" class="icon-btn" data-testid="theme-toggle-btn" title="Toggle theme" aria-label="Toggle theme">
                         <span class="theme-icon">🌙</span>
                     </button>
@@ -203,17 +207,18 @@
                 </div>
             </div>
         </div>
-        
 
         <!-- Test Banner -->
         <div id="test-banner" class="test-banner hidden" data-testid="test-banner">
             <span id="test-message"></span>
         </div>
     </div>
-    <center class="version" >© 2025 Arulbabu. All rights reserved.</center>
 
     <input type="file" id="import-file-input" accept=".json" style="display: none;">
 
+    <!-- Load auth first -->
+    <script src="auth.js"></script>
+    <!-- Then load main app -->
     <script src="app.js"></script>
 </body>
 </html>

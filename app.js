@@ -872,13 +872,18 @@ function showTestBanner(message) {
 // Initialization
 // ========================================
 
-async function init() {
+async function initApp() {
+    console.log('User authenticated, initializing app...');
+    
     try {
         await initDB();
         loadSettings();
         await loadNotes();
         await loadTools();
         setupAutosave();
+        
+        // Update UI with user info
+        window.authModule.updateUserUI();
         
         // Event Listeners
         
@@ -1002,6 +1007,31 @@ async function init() {
         
     } catch (error) {
         console.error('❌ Initialization failed:', error);
+    }
+}
+
+async function init() {
+    // Wait for authModule to be available
+    let retries = 0;
+    while (!window.authModule && retries < 20) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        retries++;
+    }
+    
+    if (!window.authModule) {
+        console.error('Auth module failed to load');
+        return;
+    }
+    
+    // Set up callback for when auth completes
+    window.appInitialized = initApp;
+    
+    // Initialize authentication
+    await window.authModule.initAuth();
+    
+    // If user is already authenticated, init app now
+    if (window.authModule.authState.isAuthenticated) {
+        await initApp();
     }
 }
 
